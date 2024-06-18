@@ -18,8 +18,10 @@ QString time_now0="00:00:00";  //круг
     ~Stopwatch();
 int  time1_2=0, time1=0, time2=0, time21=0;
 bool ag1=false, ag2=false, diff=false;
+bool ret_ag1=false, ret_ag2=false, ret_diff=false;
 
 void SendSignal_string(bool, bool); //Передать строку обычным методом
+void to_me_label();
 
 void Nooling();
 public slots:

@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+    #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "QListWidgetItem"
 
@@ -11,9 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Таймер кругов");
     ui->pb_ss->toggle();
     ui->pb_ss->setCheckable(true);
-
+    ui->pb_round->setDisabled(true);
     ui->tbr->setText("Начало");
-
+int roud=1;
     bool started0=false;
     time_mw=new QTimer(this);
     time_mw->setInterval(1);
@@ -41,7 +41,7 @@ void MainWindow::on_pb_t_toggled(bool checked)
 
 void MainWindow::time_sl0_mw()
 {
-   ui->lb_time->setText("Время: "+stw->return_funk());
+   ui->lb_time->setText("Время: "+stw->return_funk0());
 }
 
 void MainWindow::time_sl0(QString str)
@@ -51,7 +51,8 @@ void MainWindow::time_sl0(QString str)
 
 void MainWindow::get_string(QString str)
 {
-   ui->tbr->append("круг "+stw->time_now0+str);
+
+   ui->tbr->append("Rруг "+str);
 }
 
 void MainWindow::on_pb_ss_toggled(bool agv1)
@@ -83,10 +84,14 @@ void MainWindow::on_pb_clear_clicked()
 }
 
 
+
 void MainWindow::on_pb_round_clicked()
 {
    bool agv2=false, agv1=true;
-    stw->Stopwatch::SendSignal_string(agv1, false);
-   ui->tbr->append(stw->return_funk());
+stw->to_me_label();
+   stw->Stopwatch::SendSignal_string(agv1, false);
+  // ui->tbr->append(stw->return_funk());
 }
+
+
 
