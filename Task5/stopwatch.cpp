@@ -43,13 +43,30 @@ Stopwatch::~Stopwatch()
     qDebug()<<"Деструктор Stopwatch. ";
 }
 
+QString Stopwatch::int_time_string(int t){
+    int a, b, c, d;
+    QString s;
+    a=t%1000; //milliseconds
+    b=t/1000%60; //seconds
+    c=t/60000%60; //minutes
+    d=t/3600000%60; //hours
+    s=(QString::number(d)+" "
+                  +QString::number(c)+" "
+                  +QString::number(b)+" "
+                  +QString::number(a)+" ");
+    return s;
+}
+
+
 void Stopwatch::time_sl()
-{  if(ag1==true) {time21++; time1++;}   //стоп не нажата
+{  if(ag1==true) time21++;// time1++;   //стоп не нажата
     int t;
     QString s;
-    if(ag2==true) t=time21; else t=time1;
- //   qDebug()<<"diff="<<diff<<"   "<<time1;
-        int a, b, c, d;
+   // if(diff0==true) {ret_time1=ret_time2; ret_time2=time21; t=ret_time2-ret_time1;}
+  //  qDebug()<<"diff0="<<diff0<<"   "<<t;
+    if(ag2==true) t=time21;// else t=time1;
+ //
+     /*   int a, b, c, d;
         a=t%1000; //milliseconds
         b=t/1000%60; //seconds
         c=t/60000%60; //minutes
@@ -57,10 +74,12 @@ void Stopwatch::time_sl()
         s=(QString::number(d)+" "
                       +QString::number(c)+" "
                       +QString::number(b)+" "
-                      +QString::number(a)+" ");
-    if(ag2==true) time_now0=s;
+                      +QString::number(a)+" ");*/
+    s=int_time_string(t);
+    if(ag2==true && diff0==false) time_now0=s;
     else time_now=s;
-
+//if(diff==true){diff=false; time_now=s;
+//qDebug()<<"RRRR"<<time_now;//}
   //  qDebug()<<"RRRR"<<time_now; //выводит
 }
 
@@ -84,11 +103,19 @@ ag1=agv1; ag2=agv2;
 
 void Stopwatch::to_me_label()
 {
-     if (diff==false){time1_2=time21; time1=time1_2-time2; diff=true;}
-            else {time2=time21; time1=time2-time1_2; diff=false;} //круг
-            ag2=true; time_sl(); ag2=false;
-    qDebug()<<"diff======"<<time_now<<"   "<<ag2;
-    emit sig_to_mw_label(time_now);
+     //if (diff0==false) diff0=true; else diff0=false;
+    //qDebug()<<"diff======"<<diff0<<"   "<<ag2;
+   // if(diff0==true) {
+        ret_time1=ret_time2; ret_time2=time21;
+        ret_time21=ret_time2-ret_time1;//}
+   // else {ret_time21=time21;
+   // diff0=false;}
+   // QString str, str1, str2;
+    QString str=int_time_string(ret_time21);
+   QString str1=int_time_string(ret_time1);
+   QString str2=int_time_string(ret_time2);
+ qDebug()<<"diff======"<<str1<<"   "<<str2;
+    emit sig_to_mw_label(str);
 
 }
 
