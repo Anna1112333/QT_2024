@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pb_ss->setCheckable(true);
     ui->pb_round->setDisabled(true);
     ui->tbr->setText("Начало");
-int roud=1;
     bool started0=false;
     time_mw=new QTimer(this);
     time_mw->setInterval(1);
@@ -22,9 +21,8 @@ int roud=1;
 
 connect(stw, &Stopwatch::sig_to_mw_label
         , this, &MainWindow::get_string);   //параметры не пишутся
-
- //connect (stw, Stopwatch::return_funk, this, &MainWindow::time_sl0);
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -44,20 +42,17 @@ void MainWindow::time_sl0_mw()
    ui->lb_time->setText("Время: "+stw->return_funk0());
 }
 
-void MainWindow::time_sl0(QString str)
-{
-   ui->lb_time->setText(str+stw->return_funk());
-}
+
 
 void MainWindow::get_string(QString str)
 {
-
-   ui->tbr->append("Rруг "+str);
+   ui->tbr->append("Круг "+QString::number(round)+" время "+str);
+   round++;
 }
 
 void MainWindow::on_pb_ss_toggled(bool agv1)
 {
-    bool agv2=true;
+
     if(agv1 && started0==false)
     {started0=true;
     time_mw->start();}
@@ -66,14 +61,13 @@ void MainWindow::on_pb_ss_toggled(bool agv1)
     if(agv1)
     {      
         ui->pb_ss->setText("стоп");
-        stw->Stopwatch::SendSignal_string(agv1, agv2);
+        stw->Stopwatch::SendSignal_string(agv1);
     }
     else
     {
-        stw->Stopwatch::SendSignal_string(agv1, agv2);
+        stw->Stopwatch::SendSignal_string(agv1);
         ui->pb_ss->setText("продолжить");}
 }
-
 
 void MainWindow::on_pb_clear_clicked()
 {   started0=false;
@@ -81,16 +75,12 @@ void MainWindow::on_pb_clear_clicked()
     ui->lb_time->setText("Время");
     ui->pb_ss->setText("старт");
     stw->Nooling();
+    round=1;
 }
-
-
 
 void MainWindow::on_pb_round_clicked()
 {
-   bool agv2=false, agv1=true;
 stw->to_me_label();
-   stw->Stopwatch::SendSignal_string(agv1, false);
-  // ui->tbr->append(stw->return_funk());
 }
 
 

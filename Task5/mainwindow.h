@@ -14,12 +14,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    int round=1;
     bool started0;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public slots:
     void time_sl0_mw();
-     void time_sl0(QString str);
+
 
 private slots:
      void on_pb_round_clicked();
