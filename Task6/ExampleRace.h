@@ -1,6 +1,6 @@
 #ifndef EXAMPLERACE_H
 #define EXAMPLERACE_H
-
+#include <QtConcurrent>
 #include <QThread>
 #include <QMutex>
 #include <functional>
@@ -15,7 +15,7 @@ public:
     //Передаем указатель на переменную которую будем инкрементировать,
     //флаг включения мьютексов, и количесво итераций
     void DoWork(uint32_t* inc, bool mutexOn, int numIterat);
-
+//QFuture<void> r1;
 signals:
     void sig_Finish( void );
 };

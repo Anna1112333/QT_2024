@@ -66,7 +66,10 @@ MainWindow::MainWindow(QWidget *parent)
                       + QString::number(ui->sb_initNum->value()*2));
             ui->pb_start->setEnabled(true);
         }
+
     });
+    //*****
+    connect(concurRace1, ExampleRace::sig_Finish, this, StartRace);
 }
 
 MainWindow::~MainWindow()
@@ -76,11 +79,17 @@ MainWindow::~MainWindow()
 //В MainWindow, в методе StartRace, реализовать последовательный вызов
 //методов DoWork объектов concurRace1 и concurRace2 при помощи QtConcurrent.
 //Метод запускает два потока
-void MainWindow::StartRace(void){
-    if(ui->rb_qtConcur->isChecked()){
-        ui->te_debug->append("Выполни ДЗ!");
+void MainWindow::StartRace(void){    
         //Тут должен быть код ДЗ
-r1=QtConcurrent::run( &ExampleRace::DoWork, concurRace1,  number,  true, 500);
+if(ui->rb_qtConcur->isChecked()){
+    //connect(ExampleRace, sig_Finish, this, StartRace);
+    r1=QtConcurrent::run(&ExampleRace::DoWork, concurRace1,  number, true, countFinish);
+       //r1.result();
+     //r1= QtConcurrent::run([=]{concurRace1->DoWork(number,  true, countFinish);});
+    ui->te_debug->append("Искомое число равно: "
+                         + QString::number(number) + ", а должно быть "
+                         + QString::number(ui->sb_initNum->value()*2));
+     ui->pb_start->setEnabled(true);
     }
     else{
         race1->operate(&number, ui->rb_mutexOn->isChecked(),
