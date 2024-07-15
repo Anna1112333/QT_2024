@@ -68,8 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
 
     });
-    //*****
-    connect(concurRace1, ExampleRace::sig_Finish, this, StartRace);
+
 }
 
 MainWindow::~MainWindow()
@@ -81,15 +80,9 @@ MainWindow::~MainWindow()
 //Метод запускает два потока
 void MainWindow::StartRace(void){    
         //Тут должен быть код ДЗ
-if(ui->rb_qtConcur->isChecked()){
-    //connect(ExampleRace, sig_Finish, this, StartRace);
-    r1=QtConcurrent::run(&ExampleRace::DoWork, concurRace1,  number, true, countFinish);
-       //r1.result();
-     //r1= QtConcurrent::run([=]{concurRace1->DoWork(number,  true, countFinish);});
-    ui->te_debug->append("Искомое число равно: "
-                         + QString::number(number) + ", а должно быть "
-                         + QString::number(ui->sb_initNum->value()*2));
-     ui->pb_start->setEnabled(true);
+if(ui->rb_qtConcur->isChecked()){    
+    QFuture<void> future = QtConcurrent::run([this]() {concurRace1->DoWork(&number, ui->rb_mutexOn->isChecked(), ui->sb_initNum->value());});
+    future.then([this]() {concurRace2->DoWork(&number, ui->rb_mutexOn->isChecked(), ui->sb_initNum->value());});
     }
     else{
         race1->operate(&number, ui->rb_mutexOn->isChecked(),
